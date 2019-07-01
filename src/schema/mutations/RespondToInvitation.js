@@ -75,7 +75,6 @@ const resolve = (parent,
                           botType: "Trading"
                           mode: "competition"
                           resumeExecution: false
-                          runAsTeam: true
                           teamId: "${participantId}"
                           processName: "${event.title}-${participantId}"
                         }
