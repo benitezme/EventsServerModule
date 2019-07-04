@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express';
 import * as Sentry from '@sentry/node';
 import schema from './schema';
 import wrongPreshared from './errors/notAllowed.json';
+import db from './db';
 
 const app = express();
 
@@ -49,4 +50,21 @@ server.applyMiddleware({
 // Sentry error handling middleware if anything pass through
 app.use(Sentry.Handlers.errorHandler());
 
-export default app;
+// Bind server success and error to sentry
+db.on('error', (err) => {
+  Sentry.configureScope((scope) => {
+    scope.setLevel('error');
+  });
+  Sentry.captureException(err);
+});
+db.once('open', () => {
+  Sentry.configureScope((scope) => {
+    scope.setLevel('info');
+  });
+  Sentry.captureMessage('Connected to the DB.');
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
+});
+

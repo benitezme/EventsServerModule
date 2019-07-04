@@ -21,31 +21,41 @@ class ServerError extends Error {
 }
 
 export class AuthentificationError extends ClientError {
-  code = 401
-
-  message = 'Autentification not found, you have to be authentificated to perform this action'
+  constructor(message) {
+    super(message)
+    this.code = 401
+    this.message = 'Autentification not found, you have to be authentificated to perform this action.'
+  }
 }
 
 export class DatabaseError extends ClientError {
-  code = 404
-
-  message = `Ressource not found : ${this.message}`
+  constructor(message) {
+    super(message)
+    this.code = 404
+    this.message = `Resource Error: ${this.message}`
+  }
 }
 
 export class WrongArgumentsError extends ClientError {
-  code = 400
-
-  message = `Wrong arguments : ${this.message}`
+  constructor(message) {
+    super(message)
+    this.code = 400
+    this.message = `Wrong arguments : ${this.message}`
+  }
 }
 
 export class NotImplementedYetError extends ServerError {
-  code = 501
-
-  message = `This is not implemented yet, but will be soon. ${this.message}`
+  constructor(message) {
+    super(message)
+    this.code = 501
+    this.message = `This is not implemented yet, but will be soon. ${this.message}`
+  }
 }
 
 export class ServiceUnavailableError extends ServerError {
-  code = 503
-
-  message = `At least one service is unresponding ${this.message}`
+  constructor(message) {
+    super(message)
+    this.code = 503
+    this.message = `At least one service is unresponding ${this.message}`
+  }
 }
